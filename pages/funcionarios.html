@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funcionários</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container" style="display:flex;flex-direction:column;align-items:center;">
+    <!-- Lista de funcionários será carregada via JS -->
+  </div>
+  <script src="../scripts/protectEmployees.js"></script>
+  <script src="../scripts/funcionariosCRUD.js"></script>
+  <style>
+    .tabela-funcionarios {
+      width: 90%;
+      max-width: 700px;
+      margin: 32px auto 0 auto;
+      border-collapse: collapse;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      background: #fff;
+    }
+    .tabela-funcionarios th, .tabela-funcionarios td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    .tabela-funcionarios th {
+      background: #f4f4f4;
+    }
+    .tabela-funcionarios button {
+      margin-right: 8px;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 4px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .tabela-funcionarios button:hover {
+      background: #0056b3;
+    }
+    .tabela-funcionarios button[style*='background:#d32f2f'] {
+      background: #d32f2f;
+    }
+    .tabela-funcionarios button[style*='background:#d32f2f']:hover {
+      background: #a31515;
+    }
+  </style>
+</body>
+</html>

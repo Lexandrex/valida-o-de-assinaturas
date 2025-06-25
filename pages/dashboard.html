@@ -9,12 +9,29 @@
 <body>
   <div class="container">
     <h2>Dashboard</h2>
-    <ul>
-      <li><a href="employees.html">Funcionários</a></li>
-      <li><a href="submitExpense.html">Cadastrar Despesa</a></li>
-      <li><a href="pendingExpenses.html">Despesas Pendentes</a></li>
-      <li><a href="signedExpenses.html">Relatórios Assinados</a></li>
+    <ul style="list-style:none;padding:0;">
+      <li><a class="dashboard-btn" href="funcionarios.html">CRUD de Funcionários</a></li>
+      <li><a class="dashboard-btn" href="cadastrarDespesa.html">Cadastrar Relatório de Despesa</a></li>
+      <li><a class="dashboard-btn" href="despesasPendentes.html">Despesas Pendentes</a></li>
+      <li><a class="dashboard-btn" href="relatoriosAssinados.html">Relatórios Assinados</a></li>
     </ul>
   </div>
+  <style>
+    .dashboard-btn {
+      display: block;
+      background: #007bff;
+      color: #fff;
+      text-align: center;
+      padding: 14px;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 1.1em;
+      transition: background 0.2s;
+    }
+    .dashboard-btn:hover {
+      background: #0056b3;
+    }
+  </style>
 </body>
 </html>

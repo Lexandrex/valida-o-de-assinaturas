@@ -5,6 +5,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import connect from './db.js';
 import { cadastrarUsuario, loginUsuario } from './controllers/usuariosController.js';
+import { listarFuncionarios, excluirFuncionario } from './controllers/funcionariosController.js';
 
 const app = express();
 app.use(express.json());
@@ -23,6 +24,9 @@ app.get('/api/test', async (req, res) => {
 
 app.post('/api/usuarios/cadastrar', cadastrarUsuario);
 app.post('/api/usuarios/login', loginUsuario);
+
+app.get('/api/funcionarios', listarFuncionarios);
+app.delete('/api/funcionarios/:id', excluirFuncionario);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
