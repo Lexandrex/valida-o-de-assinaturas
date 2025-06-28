@@ -5,12 +5,15 @@ import cors from 'cors';
 import helmet from 'helmet';
 import connect from './db.js';
 import { cadastrarUsuario, loginUsuario } from './controllers/usuariosController.js';
-import { listarFuncionarios, excluirFuncionario } from './controllers/funcionariosController.js';
+import { listarFuncionarios, buscarFuncionarioPorId, excluirFuncionario, atualizarFuncionario } from './controllers/funcionariosController.js';
+import { cadastrarDespesa, uploadRecibo, listarDespesasPendentes } from './controllers/despesasController.js';
+import path from 'path';
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(helmet());
+app.use('/uploads/recibos', express.static(path.resolve('uploads/recibos')));
 
 app.get('/api/test', async (req, res) => {
   try {
@@ -26,7 +29,12 @@ app.post('/api/usuarios/cadastrar', cadastrarUsuario);
 app.post('/api/usuarios/login', loginUsuario);
 
 app.get('/api/funcionarios', listarFuncionarios);
+app.get('/api/funcionarios/:id', buscarFuncionarioPorId);
+app.put('/api/funcionarios/:id', atualizarFuncionario);
 app.delete('/api/funcionarios/:id', excluirFuncionario);
+
+app.post('/api/despesas', uploadRecibo.single('recibo'), cadastrarDespesa);
+app.get('/api/despesas/pendentes', listarDespesasPendentes);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

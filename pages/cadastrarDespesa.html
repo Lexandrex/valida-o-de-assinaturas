@@ -9,7 +9,21 @@
 <body>
   <div class="container">
     <h2>Cadastrar Despesa</h2>
-    <!-- Formulário de despesa aqui -->
+    <form id="formDespesa" enctype="multipart/form-data" style="max-width:400px;margin:auto;display:flex;flex-direction:column;gap:12px;">
+      <input type="text" name="titulo" placeholder="Título da despesa" required />
+      <input type="number" name="valor" placeholder="Valor (R$)" step="0.01" min="0" required />
+      <input type="date" name="data" required />
+      <textarea name="descricao" placeholder="Descrição" rows="3"></textarea>
+      <input type="file" name="recibo" accept="image/*,application/pdf" required />
+      <div id="erro" class="erro"></div>
+      <select name="employee_id" id="employee_id" required style="padding:8px;">
+        <option value="">Selecione o funcionário</option>
+      </select>
+      <button type="submit">Cadastrar Despesa</button>
+    </form>
+    <button onclick="window.location.href='dashboard.html'" style="margin-top:18px;background:#6c757d;">Voltar</button>
   </div>
+  <script src="../scripts/cadastrarDespesa.js"></script>
+  <script src="../scripts/preencherFuncionarios.js"></script>
 </body>
 </html>

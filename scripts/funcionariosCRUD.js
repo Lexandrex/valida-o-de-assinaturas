@@ -23,6 +23,7 @@ window.addEventListener('DOMContentLoaded', async function() {
     </tr>`;
   }
   html += '</tbody></table>';
+  html += '<button onclick="window.location.href=\'dashboard.html\'" style="margin-top:24px;background:#6c757d;">Voltar</button>';
   container.innerHTML = html;
 });
 

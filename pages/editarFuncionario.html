@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Funcionário</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container" style="max-width:400px;margin:40px auto;">
+    <h2>Editar Funcionário</h2>
+    <form id="editarFuncionarioForm">
+      <input type="text" id="nome" placeholder="Nome" />
+      <input type="email" id="email" placeholder="E-mail" />
+      <select id="cargo">
+        <option value="">Selecione o cargo</option>
+        <option value="funcionario">Funcionário</option>
+        <option value="gerente">Gerente</option>
+        <option value="diretor">Diretor</option>
+      </select>
+      <div id="erro" class="erro"></div>
+      <button type="submit">Salvar Alterações</button>
+    </form>
+  </div>
+  <script src="../scripts/editarFuncionario.js"></script>
+</body>
+</html>
