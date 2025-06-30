@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import connect from './db.js';
-import { cadastrarUsuario, loginUsuario } from './controllers/usuariosController.js';
+import { cadastrarUsuario, loginUsuario, gerarChavesUsuario } from './controllers/usuariosController.js';
 import { listarFuncionarios, buscarFuncionarioPorId, excluirFuncionario, atualizarFuncionario } from './controllers/funcionariosController.js';
 import { cadastrarDespesa, uploadRecibo, listarDespesasPendentes } from './controllers/despesasController.js';
 import path from 'path';
@@ -27,6 +27,7 @@ app.get('/api/test', async (req, res) => {
 
 app.post('/api/usuarios/cadastrar', cadastrarUsuario);
 app.post('/api/usuarios/login', loginUsuario);
+app.post('/api/usuarios/:id/gerar-chaves', gerarChavesUsuario);
 
 app.get('/api/funcionarios', listarFuncionarios);
 app.get('/api/funcionarios/:id', buscarFuncionarioPorId);
