@@ -22,6 +22,7 @@ window.addEventListener('DOMContentLoaded', async function() {
         '<th style="padding:12px 10px;background:#f4f4f4;">Data</th>' +
         '<th style="padding:12px 10px;background:#f4f4f4;">Descrição</th>' +
         '<th style="padding:12px 10px;background:#f4f4f4;">Recibo</th>' +
+        '<th style="padding:12px 10px;background:#f4f4f4;">Ações</th>' +
       '</tr></thead><tbody>';
       for (const d of despesas) {
         // Formatar data para dd/mm/aaaa
@@ -36,6 +37,7 @@ window.addEventListener('DOMContentLoaded', async function() {
           <td style="padding:12px 10px;">${dataFormatada}</td>
           <td style="padding:12px 10px;max-width:220px;word-break:break-word;">${d.descricao || ''}</td>
           <td style="padding:12px 10px;">${d.recibo_url ? `<a href="${backendUrl}${d.recibo_url}" target="_blank" style="color:#007bff;text-decoration:underline;">Ver Recibo</a>` : '-'}</td>
+          <td style="padding:12px 10px;"><button class="btn-assinar" data-id="${d.id}">Assinar</button></td>
         </tr>`;
       }
       html += '</tbody></table>';
@@ -44,4 +46,27 @@ window.addEventListener('DOMContentLoaded', async function() {
     html += '<div class="erro">Erro ao buscar despesas pendentes.</div>';
   }
   container.innerHTML = html;
+
+  // Adiciona evento aos botões "Assinar"
+  document.querySelectorAll('.btn-assinar').forEach(btn => {
+    btn.addEventListener('click', async function() {
+      const expense_id = this.getAttribute('data-id');
+      try {
+        const res = await fetch(backendUrl + '/api/despesas/assinar', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + (localStorage.getItem('token') || '')
+          },
+          body: JSON.stringify({ expense_id })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.erro || 'Erro ao assinar despesa');
+        alert('Despesa assinada com sucesso!');
+        window.location.reload();
+      } catch (err) {
+        alert('Erro ao assinar despesa: ' + err.message);
+      }
+    });
+  });
 });

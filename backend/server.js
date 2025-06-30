@@ -6,8 +6,11 @@ import helmet from 'helmet';
 import connect from './db.js';
 import { cadastrarUsuario, loginUsuario, gerarChavesUsuario } from './controllers/usuariosController.js';
 import { listarFuncionarios, buscarFuncionarioPorId, excluirFuncionario, atualizarFuncionario } from './controllers/funcionariosController.js';
-import { cadastrarDespesa, uploadRecibo, listarDespesasPendentes } from './controllers/despesasController.js';
+import { cadastrarDespesa, uploadRecibo, listarDespesasPendentes, assinarDespesa } from './controllers/despesasController.js';
 import path from 'path';
+import { autenticarToken } from './authMiddleware.js';
+import { listarRelatoriosValidados } from './controllers/despesasController.js';
+
 
 const app = express();
 app.use(express.json());
@@ -35,7 +38,9 @@ app.put('/api/funcionarios/:id', atualizarFuncionario);
 app.delete('/api/funcionarios/:id', excluirFuncionario);
 
 app.post('/api/despesas', uploadRecibo.single('recibo'), cadastrarDespesa);
+app.post('/api/despesas/assinar', autenticarToken, assinarDespesa);
 app.get('/api/despesas/pendentes', listarDespesasPendentes);
+app.get('/api/relatorios/assinados', listarRelatoriosValidados);
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {

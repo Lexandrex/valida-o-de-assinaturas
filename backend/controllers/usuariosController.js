@@ -23,12 +23,17 @@ export async function cadastrarUsuario(req, res) {
 
     // Gera par de chaves RSA
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-      modulusLength: 512, // menor, apenas para estudo
+      modulusLength: 2048, // seguro para produção
       publicKeyEncoding: { type: 'spki', format: 'pem' },
       privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
     });
-    // Criptografa a chave privada antes de salvar
-    const chavePrivadaCript = await bcrypt.hash(privateKey, 6); // custo baixo, só para exemplo
+    // Criptografa a chave privada com AES-256-CBC e salva em base64
+    const aesKey = crypto.createHash('sha256').update(process.env.AES_SECRET || 'segredo_aes_forte').digest();
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, iv);
+    let encrypted = cipher.update(privateKey, 'utf8', 'base64');
+    encrypted += cipher.final('base64');
+    const chavePrivadaCript = Buffer.from(iv.toString('base64') + ':' + encrypted).toString('base64');
     await conn.query('UPDATE usuarios SET chave_publica = ?, chave_privada_criptografada = ? WHERE id = ?', [publicKey, chavePrivadaCript, userId]);
 
     return res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso.' });
@@ -65,19 +70,17 @@ export async function gerarChavesUsuario(req, res) {
     const { id } = req.params;
     // Gera par de chaves RSA
     const { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
-      modulusLength: 2048,
+      modulusLength: 2048, // seguro para produção
       publicKeyEncoding: { type: 'spki', format: 'pem' },
       privateKeyEncoding: { type: 'pkcs8', format: 'pem' }
     });
-
-    // Criptografa a chave privada antes de salvar
-    const algoritmo = 'aes-256-cbc';
-    const key = Buffer.from(process.env.KEY_CRIPTO || '0123456789abcdef0123456789abcdef'); // 32 bytes
-    const iv = Buffer.from(process.env.IV_CRIPTO || 'abcdef9876543210'); // 16 bytes
-    const cripto = crypto.createCipheriv(algoritmo, key, iv);
-    let chavePrivadaCript = cripto.update(privateKey, 'utf8', 'hex');
-    chavePrivadaCript += cripto.final('hex');
-
+    // Criptografa a chave privada com AES-256-CBC e salva em base64
+    const aesKey = crypto.createHash('sha256').update(process.env.AES_SECRET || 'segredo_aes_forte').digest();
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv('aes-256-cbc', aesKey, iv);
+    let encrypted = cipher.update(privateKey, 'utf8', 'base64');
+    encrypted += cipher.final('base64');
+    const chavePrivadaCript = Buffer.from(iv.toString('base64') + ':' + encrypted).toString('base64');
     const conn = await connect();
     await conn.query('UPDATE usuarios SET chave_publica = ?, chave_privada_criptografada = ? WHERE id = ?', [publicKey, chavePrivadaCript, id]);
     res.json({ mensagem: 'Chaves geradas com sucesso.', chave_publica: publicKey });
