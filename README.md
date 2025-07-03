@@ -15,5 +15,5 @@ JavaScript
 ### Banco
 XAMPP mysql
 ### Comunicação 
-cross
+express e cors
 
