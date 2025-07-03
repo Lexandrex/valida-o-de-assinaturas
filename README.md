@@ -1,4 +1,4 @@
-# valida-o-de-assinaturas
+# validador-de-assinaturas
 
 ## introdução 
 
